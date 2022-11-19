@@ -1,9 +1,15 @@
-
+import './doctor.css';
+import { Navbar } from './Navbar';
+import { ListBox } from './listBox';
+import { Heading } from './heading';
 
 export const DoctorHome=()=>{
     return(
         <div>
-            <h1>home page</h1>
+           <Navbar />
+           <Heading />
+           <ListBox />
+           
         </div>
     )
 }

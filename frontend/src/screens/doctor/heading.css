@@ -1,0 +1,10 @@
+.heading-container{
+    width: 100%;
+    height: fit-content;
+    padding: 2rem;
+    
+}
+h1{
+    color: rgba(136, 167, 200, 0.996);;
+    text-align: center;
+}
