@@ -38,6 +38,7 @@
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
+
 ul{
     list-style-type: none;
     
@@ -53,13 +54,13 @@ ul{
     flex-direction: row;
     
 }
-.items-li :hover{
-    
-
-}
 
 .item-text{
     margin-left: 2rem;
+    
+}
+.item-text:hover{
+    text-shadow: 2px 2px 2px #eee;
 }
 .item-text-x{
     display: none;
