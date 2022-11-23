@@ -23,6 +23,9 @@ export const DoctorSignup=()=>{
         })
         .then((response)=>{
             console.log(response)
+            console.log(response.data.accessToken)
+            localStorage.setItem('accessToken',response.data.accessToken)
+            localStorage.setItem('refreshToken',response.data.refreshToken)
             setName(null);
             setEmail(null);
             setPassword(null);
@@ -33,9 +36,7 @@ export const DoctorSignup=()=>{
             if(error.response.status === 403) setMessage("You already have an account");
 
             if(error.response.status === 404) setMessage("Something went wrong");
-                
-            
-            
+               
         })
     }
 

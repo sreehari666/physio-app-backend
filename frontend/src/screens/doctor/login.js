@@ -1,17 +1,30 @@
 import "./doctor.css";
 import background from "./assets/login_bg.png";
 import { useState } from "react";
+import axios from "axios";
 
 const URL = 'http://192.168.1.45:5000'
 
 export const DoctorLogin=()=>{
     
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
+    const [email,setEmail] = useState(null);
+    const [password,setPassword] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(email)
+        axios.post(URL+'/login',{
+            email:email,
+            password:password,
+        }).then((response)=>{
+            console.log(response);
+            localStorage.setItem('accessToken',response.data.accessToken)
+            localStorage.setItem('refreshToken',response.data.refreshToken)
+            setEmail(null);
+            setPassword(null);
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 
     return(

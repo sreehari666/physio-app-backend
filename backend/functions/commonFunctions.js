@@ -1,5 +1,6 @@
 const db = require('../config/connection');
 const bcrypt = require('bcrypt');
+const { response } = require('express');
 
 
 
@@ -20,6 +21,32 @@ module.exports={
                 resolve(response)
             })
         })
+        
+    },
+    Login:(collec,userData)=>{
+        console.log(userData.password)
+        return new Promise(async(resolve,reject)=>{
+            // userData.password = await bcrypt.hash(userData.password,10);
+                const user = await db.get().collection(collec).findOne({email:userData.email})
+                console.log(user)
+                if(user){
+                    console.log(user.password)
+                    console.log(userData.password)
+                    bcrypt.compare(userData.password,user.password).then((status)=>{
+                        console.log(status)
+                        if(status){
+                            resolve({status:true,data:user})
+                        }else{
+                            resolve({status:false,data:null})
+                        }
+                    })
+                    
+                }else{
+                    resolve({status:false,data:null})
+                }
+                
+                
+            })
         
     }
 }
