@@ -2,31 +2,34 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {DoctorHome} from './screens/doctor/home';
 import {DoctorLogin} from './screens/doctor/login';
 import {DoctorSignup} from './screens/doctor/Signup';
-import { useState,useEffect } from "react";
-import axios from "axios";
+// import { useState,useEffect } from "react";
+// import axios from "axios";
 
-const URL = 'http://192.168.1.45:5000'
+//const URL = 'http://192.168.43.162:5000'
 
 function App() {
 
-  const [accessToken,setAccessToken] = useState(null);
-  const [refreshToken,setRefreshToken] = useState(null);
+  // const [accessToken,setAccessToken] = useState(null);
+  // const [refreshToken,setRefreshToken] = useState(null);
 
 
-  useEffect(()=>{
-    localStorage.getItem('accessToken')
-    localStorage.getItem('refreshToken')
-    axios.post(URL+'/verifyLogin',
-    {
-      accessToken:accessToken,
-      refreshToken:refreshToken,
-    })
-    .then((response)=>{
-      console.log(response)
-    }).catch((error)=>{
-      console.log(error)
-    })
-  })
+  // useEffect(()=>{
+  //   console.log(localStorage.getItem('accessToken'))
+  //   console.log(localStorage.getItem('refreshToken'))
+  //   setAccessToken(localStorage.getItem('accessToken'))
+  //   setRefreshToken(localStorage.getItem('refreshToken'))
+
+  //   axios.post(URL+'/verifyLogin',
+  //   {
+  //     accessToken:accessToken,
+  //     refreshToken:refreshToken,
+  //   })
+  //   .then((response)=>{
+  //     console.log(response)
+  //   }).catch((error)=>{
+  //     console.log(error)
+  //   })
+  // })
   
   return (
     <BrowserRouter>

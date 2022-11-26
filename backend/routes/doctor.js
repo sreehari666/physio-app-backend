@@ -3,12 +3,53 @@ var router = express.Router();
 var CommonFunc = require('../functions/commonFunctions');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-const bcrypt = require('bcrypt');
-const { response } = require('express');
+
+
+
+async function verifyLogin(req,res,next){
+    console.log('middleware ')
+    console.log(req.headers)
+    const authHeader = req.headers.authorization
+    const token = authHeader && authHeader.split(' ')[1] 
+    const refreshHeader = req.headers.refreshtoken
+    const refreshToken = req.headers.refreshtoken && refreshHeader.split(' ')[1]
+    console.log(token)
+    if (token) {
+      jwt.verify(token, process.env.PRIVATE_KEY, (err, decoded) => {
+        console.log("decoded")
+        console.log(decoded)
+        if(decoded === undefined){
+          //invalid access token 
+          console.log("invalid access token")
+          console.log("refresh token")
+          console.log(refreshToken)
+          if(refreshToken == null) return res.sendStatus(403)
+          
+          jwt.verify(refreshToken,process.env.PRIVATE_KEY,(err,user)=>{
+            if(err){
+              res.sendStatus(403)
+            }else{
+              console.log(user)
+              next()
+            }
+          
+          })
+
+        }else{
+          console.log('valid access token')
+          next()
+        }
+      })
+    }
+  
+  
+}
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+  
 });
 
 router.post('/signup',(req,res)=>{
@@ -21,11 +62,11 @@ router.post('/signup',(req,res)=>{
       if(resp === null){
         //new user
         CommonFunc.Signup('doctor',req.body).then((response)=>{
-          const accessToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '15s'})
-          const refreshToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '10m' })
+          const accessToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
+          const refreshToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
           console.log(response);
           res.json({accessToken:accessToken,refreshToken:refreshToken})
-        })
+        }) 
       }else{
         //user exist
         res.sendStatus(403)
@@ -47,9 +88,12 @@ router.post('/login',(req,res)=>{
         //login success
         console.log('login success')
         console.log(response.data)
-        const accessToken = jwt.sign({userid:response.data._id},process.env.PRIVATE_KEY,{ expiresIn: '15s'})
-        const refreshToken = jwt.sign({userid:response.data._id},process.env.PRIVATE_KEY,{ expiresIn: '10m' })
+        const accessToken = jwt.sign({userid:response.data._id},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
+        const refreshToken = jwt.sign({userid:response.data._id},process.env.PRIVATE_KEY,{ expiresIn:'1h'})
+      
         res.json({accessToken:accessToken,refreshToken:refreshToken})
+      
+        
       }else{
         //login failed
         console.log('login failed')
@@ -62,8 +106,22 @@ router.post('/login',(req,res)=>{
   }
 })
 
-router.post('/verifyLogin',(req,res)=>{
-  console.log('verify login')
+
+router.get('/home',verifyLogin,(req,res)=>{
+
+
+  res.sendStatus(200)
+  // res.sendStatus(200)
+  // console.log('request get')
+  // const refreshHeader = req.headers.refreshtoken
+  // const refreshToken = req.headers.refreshtoken && refreshHeader.split(' ')[1]
+  // const newAccessToken =jwt.sign({userid:user.userid},process.env.PRIVATE_KEY,{ expiresIn: '30s'})
+  // res.json({accessToken:newAccessToken})
+  // console.log(req.headers.authorization)
+  //res.sendStatus(200)
 })
+
+
+
 
 module.exports = router;

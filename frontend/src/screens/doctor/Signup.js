@@ -2,10 +2,13 @@ import "./doctor.css";
 import background from "./assets/login_bg.png";
 import { useState } from "react";
 import axiox from "axios";
+import { useNavigate } from "react-router-dom";
 
-const URL = 'http://192.168.1.45:5000'
+// const URL = 'http://192.168.1.45:5000'
+const URL = 'http://192.168.43.162:5000'
 
 export const DoctorSignup=()=>{
+    const navigate = useNavigate();
     
     const [name,setName] = useState(null);
     const [email,setEmail] = useState(null);
@@ -26,6 +29,7 @@ export const DoctorSignup=()=>{
             console.log(response.data.accessToken)
             localStorage.setItem('accessToken',response.data.accessToken)
             localStorage.setItem('refreshToken',response.data.refreshToken)
+            navigate('/')
             setName(null);
             setEmail(null);
             setPassword(null);

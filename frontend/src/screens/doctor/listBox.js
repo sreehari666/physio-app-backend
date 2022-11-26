@@ -9,19 +9,16 @@ export const ListBox=()=>{
                             <li className='item'>
                                 <p className='item-text'>{item}</p>
                                     
-                                    
                                     <button className='list-btn'>edit</button>
                                     <button className='list-btn'>delete</button>
                                     
-                                    
-                                
-                                
                             </li>
                         </div>
                         
                     ))}
 
             </ul>
+            
         </div>
     )
 }

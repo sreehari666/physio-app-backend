@@ -1,6 +1,7 @@
 const db = require('../config/connection');
 const bcrypt = require('bcrypt');
 const { response } = require('express');
+const jwt = require('jsonwebtoken')
 
 
 
@@ -48,5 +49,18 @@ module.exports={
                 
             })
         
+    },
+    refreshTokens:(refreshToken)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection('refreshTokens').insertOne({refreshToken}).then((data)=>{
+                console.log(data)
+                resolve(data)
+            })
+        })
+    },
+    getAllData:(collec)=>{
+        return new Promise(async(resolve,reject)=>{
+            resolve(db.get().collection(collec).find().toArray())
+        })
     }
 }

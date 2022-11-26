@@ -1,0 +1,39 @@
+.profileBtnContainer{
+    float: right;
+    padding-right: 2rem;
+    
+}
+.profile-icon-btn{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    /* position:fixed; */
+    float: right;
+    
+}
+.dropDownContainer{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgba( 136, 167, 200, 0.3 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 8px );
+    -webkit-backdrop-filter: blur( 8px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    z-index: -1;
+    margin-top: 5.5rem;
+
+}
+.dropDownContainer-expanded{
+    display: none;
+}
+.profile-item{
+    padding:0.5rem;
+    border-radius: 0.5rem;
+    background: rgba( 136, 167, 200, 0.3 );
+    margin-top: 0.2rem;
+    
+}
+.profile-item:hover{
+    background: rgba(136, 167, 200, 0.688);
+}

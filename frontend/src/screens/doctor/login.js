@@ -2,13 +2,17 @@ import "./doctor.css";
 import background from "./assets/login_bg.png";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const URL = 'http://192.168.1.45:5000'
+// const URL = 'http://192.168.1.45:5000'
+const URL = 'http://192.168.43.162:5000'
 
 export const DoctorLogin=()=>{
+    const navigate = useNavigate();
     
     const [email,setEmail] = useState(null);
     const [password,setPassword] = useState(null);
+    const [message,setMessage] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,12 +22,20 @@ export const DoctorLogin=()=>{
             password:password,
         }).then((response)=>{
             console.log(response);
-            localStorage.setItem('accessToken',response.data.accessToken)
-            localStorage.setItem('refreshToken',response.data.refreshToken)
-            setEmail(null);
-            setPassword(null);
+            if(response.data.accessToken && response.data.refreshToken){
+                localStorage.setItem('accessToken',response.data.accessToken)
+                localStorage.setItem('refreshToken',response.data.refreshToken)
+                setEmail(null);
+                setPassword(null);
+                navigate('/')
+
+            }
+            
         }).catch((error)=>{
             console.log(error)
+            setMessage("Login failed, Try again")
+            navigate('/login')
+
         })
     }
 
