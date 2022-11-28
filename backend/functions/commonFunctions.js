@@ -1,7 +1,6 @@
 const db = require('../config/connection');
 const bcrypt = require('bcrypt');
-const { response } = require('express');
-const jwt = require('jsonwebtoken')
+
 
 
 
@@ -33,14 +32,18 @@ module.exports={
                 if(user){
                     console.log(user.password)
                     console.log(userData.password)
-                    bcrypt.compare(userData.password,user.password).then((status)=>{
-                        console.log(status)
-                        if(status){
-                            resolve({status:true,data:user})
-                        }else{
-                            resolve({status:false,data:null})
-                        }
-                    })
+                    if(user.password){
+                        bcrypt.compare(userData.password,user.password).then((status)=>{
+                            console.log(status)
+                            if(status){
+                                resolve({status:true,data:user})
+                            }else{
+                                resolve({status:false,data:null})
+                            }
+                        })
+                    }else{
+                        resolve({status:false,data:null})
+                    }
                     
                 }else{
                     resolve({status:false,data:null})
@@ -61,6 +64,13 @@ module.exports={
     getAllData:(collec)=>{
         return new Promise(async(resolve,reject)=>{
             resolve(db.get().collection(collec).find().toArray())
+        })
+    },
+    googleSignup:(collec,userData)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).insertOne(userData).then((data)=>{
+                resolve(data)
+            })
         })
     }
 }

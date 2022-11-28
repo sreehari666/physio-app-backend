@@ -4,8 +4,8 @@ import { useState } from "react";
 import axiox from "axios";
 import { useNavigate } from "react-router-dom";
 
-// const URL = 'http://192.168.1.45:5000'
-const URL = 'http://192.168.43.162:5000'
+const URL = 'http://192.168.1.45:5000'
+//const URL = 'http://192.168.43.162:5000'
 
 export const DoctorSignup=()=>{
     const navigate = useNavigate();

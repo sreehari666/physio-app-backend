@@ -8,8 +8,8 @@ import { ProfileBtn } from './profileBtn';
 import axios from 'axios';
 
 
-// const URL = 'http://192.168.1.45:5000'
-const URL = 'http://192.168.43.162:5000'
+const URL = 'http://192.168.1.45:5000'
+//const URL = 'http://192.168.43.162:5000'
 
 export const DoctorHome=()=>{
 const navigate = useNavigate();
@@ -39,6 +39,8 @@ const [loading, setLoading] = useState(false);
       navigate('/login')
     })
   })
+
+
   return(
     <div>
         {loading?(
@@ -54,6 +56,7 @@ const [loading, setLoading] = useState(false);
                 <Heading />
                 <Navbar />
                 <ListBox />
+                
             </>
 
         )}

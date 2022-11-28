@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 export const ProfileBtn=()=>{
-    const [toggleBtn,setToggleBtn] = useState(true);
+    const [toggleBtn,setToggleBtn] = useState(false);
     const navigate = useNavigate();
     function Logout(){
         localStorage.setItem('accessToken',null)

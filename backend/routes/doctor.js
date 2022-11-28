@@ -53,6 +53,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signup',(req,res)=>{
+  req.body.googleId = null;
+  req.body.imgUrl = null;
   console.log(req.body)
   if(req.body.name === null || req.body.email === null || req.body.password === null){
     res.sendStatus(404)
@@ -80,6 +82,7 @@ router.post('/signup',(req,res)=>{
 
 router.post('/login',(req,res)=>{
   console.log(req.body);
+  
   if(req.body.email === null || req.body.password === null){
     res.sendStatus(404);
   }else{
@@ -107,6 +110,44 @@ router.post('/login',(req,res)=>{
 })
 
 
+router.post('/google',(req,res)=>{
+  console.log(req.body)
+  if(req.body){
+  
+    CommonFunc.GetUserDataByEmail('doctor',req.body.email).then((response)=>{
+      console.log(response)
+      if(response){
+        //user exist
+        const accessToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
+        const refreshToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn:'1h'})
+        
+        res.json({accessToken:accessToken,refreshToken:refreshToken})
+      }else{
+        //user not exist need to create account
+        CommonFunc.googleSignup('doctor',req.body).then((response)=>{
+          console.log(response)
+          if(response){
+            const accessToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
+            const refreshToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn:'1h'})
+            
+            res.json({accessToken:accessToken,refreshToken:refreshToken})
+          }
+        })
+
+      }
+    })
+
+  }else{
+     res.sendStatus(404)
+  }
+})
+
+router.get('/get-client-id',(req,res)=>{
+  res.json({CLIENT_ID:process.env.CLIENT_ID})
+})
+
+
+
 router.get('/home',verifyLogin,(req,res)=>{
 
 
@@ -120,6 +161,8 @@ router.get('/home',verifyLogin,(req,res)=>{
   // console.log(req.headers.authorization)
   //res.sendStatus(200)
 })
+
+
 
 
 
