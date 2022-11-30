@@ -8,6 +8,7 @@ module.exports={
     Signup:(collec,userData)=>{
         return new Promise(async(resolve,reject)=>{
             userData.password = await bcrypt.hash(userData.password,10);
+            console.log(userData.password)
             db.get().collection(collec).insertOne(userData).then((data)=>{
                 console.log(data)
                 resolve(data)

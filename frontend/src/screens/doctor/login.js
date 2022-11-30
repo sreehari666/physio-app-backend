@@ -5,7 +5,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
-import {gapi} from "gapi-script"
+import {gapi} from "gapi-script";
+
 
 
 const URL = 'http://192.168.1.45:5000'
@@ -23,14 +24,18 @@ export const DoctorLogin=()=>{
         axios.get(URL+'/get-client-id')
         .then(async(response)=>{
             console.log(response.data.CLIENT_ID)
+            
             await gapi.load("client:auth2",()=>{
-                console.log("use effect 2")
-                gapi.auth2.init({clientId:response.data.CLIENT_ID}).then(()=>{
+                console.log("gapi client auth2")
+                console.log(response.data.CLIENT_ID)
+                gapi.auth2.init({clientId:response.data.CLIENT_ID}).then((data)=>{
+                    console.log(data)
+
                     setId(response.data.CLIENT_ID)
                 })
                 
             })
-            console.log("use effect 1")
+           
         }).catch((error)=>{
             console.log(error)
         })
@@ -111,19 +116,20 @@ export const DoctorLogin=()=>{
                     <p style={{fontSize:12}}>{message}</p>
                     <input type="email" placeholder="Email" name="email" onChange={(e)=>setEmail(e.target.value)} />
                     <input type="password" placeholder="Password" name="password" onChange={(e)=>setPassword(e.target.value)} />
-                    <button type="submit" style={{marginBottom:'0.8rem'}}>Login</button>
+                    <a href="/signup" style={{fontSize:'0.8rem',marginBottom:'0rem',marginTop:'1rem',color:'blue'}}>Don't have an account? Create one</a>
+                    <button type="submit" style={{marginBottom:'0.8rem',marginTop:'0.8rem'}}>Login</button>
                     <p style={{fontSize:'0.8rem'}}>Or login with</p>
-                        <GoogleLogin
+                        {id && <GoogleLogin
                         clientId={id}
                         render={renderProps => (
                             
-                            <button onClick={renderProps.onClick} style={{height:'3rem',width:'3rem', borderRadius:'1.5rem', alignItems:'center',justifyContent:'center',marginTop:'0.5rem',backgroundColor:'#ffffff'}}><i class="fab fa-google fa-3x"></i></button>
+                            <button onClick={renderProps.onClick} style={{height:'3rem',width:'3rem', borderRadius:'1.5rem', alignItems:'center',justifyContent:'center',marginTop:'0.5rem',backgroundColor:'#ffffff'}}><i className="fab fa-google fa-3x"></i></button>
                         )}
                         onSuccess={handleGoogleSuccess}
                         onFailure={handleGoogleFailure}
                         cookiePolicy={'single_host_origin'}>
     
-                        </GoogleLogin>
+                        </GoogleLogin>}
                     
                </div>
             </div>

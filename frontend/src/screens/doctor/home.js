@@ -8,7 +8,7 @@ import { ProfileBtn } from './profileBtn';
 import axios from 'axios';
 
 
-const URL = 'http://192.168.1.45:5000'
+const URL = 'http://192.168.1.45:5000';
 //const URL = 'http://192.168.43.162:5000'
 
 export const DoctorHome=()=>{
@@ -23,6 +23,7 @@ const [loading, setLoading] = useState(false);
   }, []);
   useEffect(()=>{
     console.log(localStorage.getItem('accessToken'))
+    console.log(localStorage.getItem('refreshToken'))
     axios.get(URL+'/home',{ headers: {"Authorization" : `Bearer ${localStorage.getItem('accessToken')}`,"refreshToken": `Bearer ${localStorage.getItem('refreshToken')}`} })
     .then((response)=>{
       console.log("response")
@@ -55,7 +56,7 @@ const [loading, setLoading] = useState(false);
                 <ProfileBtn />
                 <Heading />
                 <Navbar />
-                <ListBox />
+                {/* <ListBox /> */}
                 
             </>
 

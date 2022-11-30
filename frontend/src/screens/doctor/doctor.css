@@ -121,6 +121,15 @@ h3{
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
+
+  .admin-login-container{
+    margin-top: 2rem;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
 
 /*loading screen style*/

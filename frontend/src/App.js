@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {DoctorHome} from './screens/doctor/home';
 import {DoctorLogin} from './screens/doctor/login';
 import {DoctorSignup} from './screens/doctor/Signup';
+import {AdminLogin} from './screens/admin/AdminLogin';
 // import { useState,useEffect } from "react";
 // import axios from "axios";
 
@@ -37,6 +38,7 @@ function App() {
         <Route exact path='/' element={<DoctorHome />} />
         <Route exact path='/login' element={<DoctorLogin />} />
         <Route exact path='/signup' element={<DoctorSignup />} />
+        <Route exact path="/admin/login" element={<AdminLogin />} />
       </Routes>
     </BrowserRouter>
    
