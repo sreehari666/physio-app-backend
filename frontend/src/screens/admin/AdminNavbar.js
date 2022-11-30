@@ -1,17 +1,16 @@
-import './NavbarStyle.css';
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Navbar=()=>{
+export const AdminNavbar=()=>{
 
     const [toggleBtn,setToggleBtn] = useState(true);
     const navigate = useNavigate();
 
     function Logout(){
-        localStorage.setItem('accessToken',null)
-        localStorage.setItem('refreshToken',null)
+        localStorage.setItem('adminAccessToken',null)
+        localStorage.setItem('adminRefreshToken',null)
         console.log("logout")
-        navigate('/')
+        navigate('/admin')
     }
 
     return(
