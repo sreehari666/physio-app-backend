@@ -6,15 +6,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import {gapi} from "gapi-script";
+import URL from '../../URL/url';
 
 
 
-const URL = 'http://192.168.1.45:5000'
+//const URL = 'http://192.168.1.45:5000'
 //const URL = 'http://192.168.43.162:5000'
 
 export const DoctorLogin=()=>{
     const navigate = useNavigate();
-    
+
     const [email,setEmail] = useState(null);
     const [password,setPassword] = useState(null);
     const [message,setMessage] = useState(null);

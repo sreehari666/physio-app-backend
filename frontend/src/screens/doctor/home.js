@@ -6,9 +6,10 @@ import { ListBox } from './listBox';
 import { Heading } from './heading';
 import { ProfileBtn } from './profileBtn';
 import axios from 'axios';
+import URL from '../../URL/url';
 
 
-const URL = 'http://192.168.1.45:5000';
+//const URL = 'http://192.168.1.45:5000';
 //const URL = 'http://192.168.43.162:5000'
 
 export const DoctorHome=()=>{

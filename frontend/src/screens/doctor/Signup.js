@@ -1,14 +1,13 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import "./doctor.css";
 import background from "./assets/login_bg.png";
-import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import {gapi} from "gapi-script";
+import URL from '../../URL/url';
 
-
-const URL = 'http://192.168.1.45:5000'
+//const URL = 'http://192.168.1.45:5000'
 //const URL = 'http://192.168.43.162:5000'
 
 export const DoctorSignup=()=>{
