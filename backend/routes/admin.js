@@ -24,4 +24,7 @@ router.post('/login',(req,res)=>{
   
 })
 
+router.post('/exercise',(req,res)=>{
+  console.log(req.body)
+})
 module.exports = router;

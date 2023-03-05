@@ -4,6 +4,7 @@ import {DoctorLogin} from './screens/doctor/login';
 import {DoctorSignup} from './screens/doctor/Signup';
 import {AdminLogin} from './screens/admin/AdminLogin';
 import { AdminHome } from "./screens/admin/AdminHome";
+import { AdminExercise } from "./screens/admin/AdminExercise";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path='/signup' element={<DoctorSignup />} />
         <Route exact path="/admin/login" element={<AdminLogin />} />
         <Route exact path="/admin" element={<AdminHome />} />
+        <Route exact path="/exercise" element = {<AdminExercise />} />
       </Routes>
     </BrowserRouter>
    

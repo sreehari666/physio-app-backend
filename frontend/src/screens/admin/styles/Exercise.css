@@ -1,0 +1,50 @@
+.exer-container{
+    margin: auto;
+    width: 50%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba( 136, 167, 200, 0.45 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 20px );
+    -webkit-backdrop-filter: blur( 20px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+.exer-select{
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+.exer-row{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    
+}
+.exer-textarea{
+    border: none;
+    border-radius:10px;
+    margin-top:20px;
+    padding:10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.exer-a{
+    text-decoration: underline;
+}
+.exer-label{
+    text-align: left;
+}
+.exer-img{
+    height: 100px;
+    width: 100px;
+}
+.exer-btn{
+    height: 25px;
+    width: 200px;
+    margin-left: 50px;
+}

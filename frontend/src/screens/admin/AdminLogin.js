@@ -2,11 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import URL from '../../URL/url';
 
 
 export const AdminLogin = ()=>{
 
-    const URL = 'http://192.168.1.45:5000'
+    //const URL = 'http://192.168.1.45:5000'
 
     const navigate = useNavigate();
 
