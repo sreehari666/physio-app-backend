@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import URL from '../../URL/url';
+import URL_ from '../../URL/url';
 
 
 export const AdminLogin = ()=>{
@@ -18,7 +18,7 @@ export const AdminLogin = ()=>{
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(email)
-        axios.post(URL+'/admin/login',{
+        axios.post(URL_+'/admin/login',{
             email:email,
             password:password,
         }).then((response)=>{

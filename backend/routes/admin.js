@@ -3,6 +3,8 @@ var router = express.Router();
 const CommonFunc = require('../functions/commonFunctions');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const multer = require('multer')
+const upload = multer({ dest: 'images/' })
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -24,7 +26,19 @@ router.post('/login',(req,res)=>{
   
 })
 
-router.post('/exercise',(req,res)=>{
+router.post('/exercise',upload.single('image'),(req,res)=>{
   console.log(req.body)
+  const imageName = req.file.filename
+  console.log(imageName)
+  CommonFunc.insertData('exercise',req.body).then((response)=>{
+    console.log(response)
+    if(response.acknowledged){
+      res.send(response.insertedId)
+    }else{
+      res.sendStatus(500)
+    }
+  })
 })
+
+
 module.exports = router;

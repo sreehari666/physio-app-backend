@@ -62,16 +62,25 @@ module.exports={
             })
         })
     },
-    getAllData:(collec)=>{
-        return new Promise(async(resolve,reject)=>{
-            resolve(db.get().collection(collec).find().toArray())
-        })
-    },
     googleSignup:(collec,userData)=>{
         return new Promise(async(resolve,reject)=>{
             db.get().collection(collec).insertOne(userData).then((data)=>{
                 resolve(data)
             })
         })
-    }
+    },
+    getAllData:(collec)=>{
+        return new Promise(async(resolve,reject)=>{
+            resolve(db.get().collection(collec).find().toArray())
+        })
+    },
+    insertData:(collec,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).insertOne(data).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+
+    
 }

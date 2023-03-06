@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import {gapi} from "gapi-script";
-import URL from '../../URL/url';
+import URL_ from '../../URL/url';
 
 //const URL = 'http://192.168.1.45:5000'
 //const URL = 'http://192.168.43.162:5000'
@@ -20,7 +20,7 @@ export const DoctorSignup=()=>{
     const [id,setId] = useState(null)
 
     useEffect(()=>{
-        axios.get(URL+'/get-client-id')
+        axios.get(URL_+'/get-client-id')
         .then(async(response)=>{
             console.log(response.data.CLIENT_ID)
             
@@ -43,7 +43,7 @@ export const DoctorSignup=()=>{
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(email)
-        axios.post(URL+'/signup',{
+        axios.post(URL_+'/signup',{
             name:name,
             email:email,
             password:password,
@@ -79,7 +79,7 @@ export const DoctorSignup=()=>{
         console.log(googleData)
         console.log(googleData.profileObj.email)
         console.log(googleData.profileObj.name)
-        axios.post(URL+'/google',{
+        axios.post(URL_+'/google',{
             name:googleData.profileObj.name,
             email:googleData.profileObj.email,
             googgleId:googleData.profileObj.googgleId,
