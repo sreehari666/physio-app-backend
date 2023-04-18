@@ -7,7 +7,7 @@ var db=require('./config/connection');
 var cors = require('cors');
 
 var doctorRouter = require('./routes/doctor');
-var patientRouter = require('./routes/patient');
+var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
 var app = express();
@@ -34,7 +34,7 @@ db.connect((err)=>{
 })
 
 app.use('/', doctorRouter);
-app.use('/patient', patientRouter);
+app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 
 

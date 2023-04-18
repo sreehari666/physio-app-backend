@@ -55,6 +55,7 @@ router.get('/', function(req, res, next) {
 router.post('/signup',(req,res)=>{
   req.body.googleId = null;
   req.body.imgUrl = null;
+  req.body.verified = false
   console.log(req.body)
   if(req.body.name === null || req.body.email === null || req.body.password === null){
     res.sendStatus(404)
@@ -162,7 +163,12 @@ router.get('/home',verifyLogin,(req,res)=>{
   //res.sendStatus(200)
 })
 
-
+router.get('/doctors/get',(req,res)=>{
+  CommonFunc.getAllData('doctor').then((response)=>{
+    console.log(response)
+    res.send(response)
+  })
+})
 
 
 

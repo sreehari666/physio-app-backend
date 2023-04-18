@@ -19,11 +19,11 @@ export const AdminNavbar=()=>{
             
             <ul>
                 <li className="btn-top"><a onClick={()=>setToggleBtn(prev=>!toggleBtn)}><i className="fa-solid fa-bars"></i></a></li> 
-                <li className="items-li"><a href="/account"><i className="fa-solid fa-user"></i></a><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Account</p></li>
-                <li className="items-li"><a href="/exercise"><i className="fa-solid fa-person-walking"></i></a><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Exercise</p></li>
-                <li className="items-li"><a href="/"><i className="fa-solid fa-house"></i></a><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Home</p></li>
-                <li className="items-li"><a href="/patients"><i className="fa-solid fa-user-group"></i></a><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Patients</p></li>
-                <li className="items-li"><a href="/settings"><i className="fa-solid fa-gear"></i></a><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Settings</p></li>
+                <a href="/account"><li className="items-li"><i className="fa-solid fa-user"></i><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Account</p></li></a>
+                <a href="/admin/exercise/view"><li className="items-li"><i className="fa-solid fa-person-walking"></i><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Exercise</p></li></a>
+                <a href="/"><li className="items-li"><i className="fa-solid fa-house"></i><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Home</p></li></a>
+                <a href="/patients"><li className="items-li"><i className="fa-solid fa-user-group"></i><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Patients</p></li></a>
+                <a href="/settings"><li className="items-li"><i className="fa-solid fa-gear"></i><p className={`row ${toggleBtn ? 'item-text-x' : 'item-text'}`}>Settings</p></li></a>
                 <li className="items-li">
                     <button className={`row ${toggleBtn ? 'logout-btn' : 'logout-btn-expanded'}`}  onClick={()=>Logout()}>Logout</button>
                 </li>

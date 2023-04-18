@@ -38,6 +38,8 @@
 }
 .exer-label{
     text-align: left;
+    font-size: small;
+    margin-top: 20px;
 }
 .exer-img{
     height: 100px;

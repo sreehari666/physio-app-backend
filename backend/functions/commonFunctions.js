@@ -1,5 +1,6 @@
 const db = require('../config/connection');
 const bcrypt = require('bcrypt');
+const { ObjectID, ObjectId } = require('bson');
 
 
 
@@ -81,6 +82,74 @@ module.exports={
             })
         })
     },
+    getExerciseDataByTitle:(collec,title)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).findOne({title:title}).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    updateExerciseData:(collec,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({"steps.stepNum":data.stepNum},{
+                $set:{
+                    "steps.$.stepName":data.stepName,
+                    "steps.$.stepDescription":data.stepDescription,
+                    "steps.$.stepObj":data.stepObj,
+                    "steps.$.filename":data.filename,
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    pushExerciseStep:(collec,data,id)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({_id:ObjectId(id)},{$push:{"steps":data }}).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    getDataById:(collec,id)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).findOne({_id:ObjectId(id)}).then((res)=>{
+                resolve(res)
+            }).catch((err)=>{
+                console.error(err)
+            })
+        })
+    },
+    getCycleById:(collec,id)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).findOne({id:id}).then((res)=>{
+                resolve(res)
+            }).catch((err)=>{
+                console.error(err)
+            })
+        })
+    },
+    editCycle:(collec,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({id:data.id},{
+                $set:{
+                    cycle:data.cycle,
+                    occurance:data.occurance
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    deleteById:(collec,id)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).deleteOne({_id:ObjectId(id)}).then((res)=>{
+                resolve(res)
+            }).catch((err)=>{
+                console.error(err)
+            })
+        })
+    }
+
 
     
 }
