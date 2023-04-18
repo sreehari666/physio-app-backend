@@ -10,11 +10,13 @@ import { AdminEditExercise } from "./screens/admin/AdminEditExercise";
 import { AdminAddExerciseStep } from "./screens/admin/AdminAddExerciseStep";
 import { AdminAddCycle } from "./screens/admin/AdminAddCycle";
 import { AdminEditCycle } from "./screens/admin/AdminEditCycle";
+import { DoctorProfile } from "./screens/admin/DoctorProfile";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route exact path='/' element={<DoctorHome />} />
         <Route exact path='/login' element={<DoctorLogin />} />
         <Route exact path='/signup' element={<DoctorSignup />} />
@@ -26,6 +28,9 @@ function App() {
         <Route exact path="/admin/exercise/add" element={<AdminAddExerciseStep />} />
         <Route exact path="/admin/exercise/add/cycle" element={<AdminAddCycle />} />
         <Route exact path="/admin/exercise/edit/cycle" element={<AdminEditCycle />} />
+        <Route exact path="/admin/doctor/profile" element={<DoctorProfile/>}/>
+        
+
       </Routes>
     </BrowserRouter>
    
