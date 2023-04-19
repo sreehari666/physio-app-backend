@@ -2,10 +2,16 @@ import { useState,useEffect } from "react";
 import "./styles/DoctorList.css";
 import axios from "axios";
 import URL_ from "../../URL/url";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import allActions from "../../redux/actions";
+
 
 
 
 export const AdminDoctorList = () =>{
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [names,setNames] = useState()
     function fetchData(){
         axios.get(URL_+'/doctors/get').then((response)=>{
@@ -40,7 +46,11 @@ export const AdminDoctorList = () =>{
                             {item.name}
                         </div>
                         <div style={{width:'40%',display:'flex',justifyContent:'flex-end'}}>
-                            <button className="verified-btn">View profile</button>
+                            <button className="verified-btn" onClick={()=>{
+                                console.log(item)
+                                dispatch(allActions.DoctorProfileAction.AddProfileData(item))
+                                navigate('/admin/doctor/profile')}
+                            }>View profile</button>
                             {item.verified !== true ?(
                                 <button className="verified-btn-red">Not Verified</button>
                             ):(
