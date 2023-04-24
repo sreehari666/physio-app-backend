@@ -148,6 +148,27 @@ module.exports={
                 console.error(err)
             })
         })
+    },
+    getDataByUsetID:(collec,userid)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).findOne({userid:userid}).then((res)=>{
+                resolve(res)
+            }).catch((err)=>{
+                console.error(err)
+            })
+        })
+    },
+    updateProgress:(collec,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({"userid":data.userid},{
+                $push:{
+                    "data":data.data[0],
+                   
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
     }
 
 

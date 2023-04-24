@@ -59,14 +59,31 @@ router.post('/login/verify',(req,res)=>{
 
 router.post('/save/progress',(req,res)=>{
   console.log(req.body)
-  CommonFunc.insertData('progress',req.body).then((response)=>{
-    console.log(response)
-    res.status(200)
-    
-  }).catch((err)=>{
-    console.log(err)
-    res.send(500)
+  CommonFunc.getDataByUsetID('progress',req.body.userid).then((user)=>{
+    console.log(user)
+    if(!user){
+      CommonFunc.insertData('progress',req.body).then((response)=>{
+        console.log(response)
+        res.status(200)
+        
+      }).catch((err)=>{
+        console.log(err)
+        res.send(500)
+      })
+    }else{
+      //update
+      CommonFunc.updateProgress('progress',req.body).then((response)=>{
+        console.log(response)
+        res.status(200)
+      }).catch((err)=>{
+        console.log(err)
+        res.status(500)
+      })
+
+    }
+   
   })
+ 
 })
 
 
