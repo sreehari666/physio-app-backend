@@ -30,10 +30,10 @@ router.post('/login',(req,res)=>{
 
 router.post('/exercise',upload.single('image'),(req,res)=>{
   console.log(req.body)
-  const imageName = req.file.filename
-  console.log(imageName)
+  // const imageName = req.file.filename
+  // console.log(imageName)
   var steps = JSON.parse(req.body.steps)
-  steps[0].filename = imageName
+  //steps[0].filename = imageName
   console.log(steps)
   req.body.steps = steps
   CommonFunc.getExerciseDataByTitle('exercise',req.body.title).then((resp)=>{
@@ -59,7 +59,7 @@ router.post('/exercise',upload.single('image'),(req,res)=>{
 router.post('/exercise/edit',upload.single('image'),(req,res)=>{
   console.log(req.body)
   var steps = JSON.parse(req.body.steps)
-  steps[0].filename = req.file.filename
+  // steps[0].filename = req.file.filename
   console.log(steps)
  
   CommonFunc.updateExerciseData('exercise',steps[0]).then((response)=>{
@@ -85,7 +85,7 @@ router.get('/exercise/get/:id',(req,res)=>{
 router.post('/exercise/add',upload.single('image'),(req,res)=>{
   console.log(req.body)
   var steps = JSON.parse(req.body.steps)
-  steps[0].filename = req.file.filename
+  // steps[0].filename = req.file.filename
   console.log(steps[0])
   
   CommonFunc.getDataById('exercise',req.body.id).then((resp)=>{
@@ -146,6 +146,14 @@ router.delete('/exercise/cycle/delete/:id',(req,res)=>{
     if(response.acknowledged){
       res.sendStatus(200)
     }
+  })
+
+})
+
+router.post('/exercise/update/image',(req,res)=>{
+  console.log(req.body)
+  CommonFunc.updateImageURL("exercise",req.body).then((response)=>{
+    console.log(response)
   })
 
 })

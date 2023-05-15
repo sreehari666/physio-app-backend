@@ -1,6 +1,7 @@
 const db = require('../config/connection');
 const bcrypt = require('bcrypt');
 const { ObjectID, ObjectId } = require('bson');
+const { reject } = require('underscore');
 
 
 
@@ -149,7 +150,7 @@ module.exports={
             })
         })
     },
-    getDataByUsetID:(collec,userid)=>{
+    getDataByUserID:(collec,userid)=>{
         return new Promise(async(resolve,reject)=>{
             db.get().collection(collec).findOne({userid:userid}).then((res)=>{
                 resolve(res)
@@ -164,6 +165,29 @@ module.exports={
                 $push:{
                     "data":data.data[0],
                    
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    updateUserCurrentCourse:(collec,course)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({_id:ObjectId(course.userid)},{
+                $set:{
+                    "currentCourse":course,
+                   
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    updateImageURL:(collec,data)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collec).updateOne({_id:ObjectId(data.id)},{
+                $set:{
+                    "imageURL":data.imageURL
                 }
             }).then((res)=>{
                 resolve(res)

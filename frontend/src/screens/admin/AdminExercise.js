@@ -4,6 +4,13 @@ import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 import './styles/Exercise.css';
 import URL_ from '../../URL/url';
+import { initializeApp } from "firebase/app";
+import {getStorage,ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
+import config from "../../config/config";
+
+initializeApp(config.firebaseConfig)
+
+const storage = getStorage();
 
 
 export const AdminExercise = () =>{
@@ -26,13 +33,23 @@ export const AdminExercise = () =>{
         
     }
 
-    const handleSubmit =(event)=>{
+    const uploadFile= async(file,id)=>{
+        const datetime = Date.now()
+        const storageRef = ref(storage, 'files/'+datetime+'.gif')   
+        const snapshot = await uploadBytesResumable(storageRef,file)
+        const downloadURL = await getDownloadURL(snapshot.ref)
+        console.log(downloadURL)
+        return downloadURL
+    }
+
+    const handleSubmit = async(event)=>{
         event.preventDefault();
+        //const downloadURL = await uploadFile(gif)
         const formData = new FormData();
         formData.append("title",title)
         formData.append("description",description)
         formData.append("exID",myuuid)
-        formData.append("image",gif);
+        formData.append("imageURL",null)
         formData.append("steps",JSON.stringify([{
             stepNum:1,
             stepName:stepName,
@@ -40,27 +57,34 @@ export const AdminExercise = () =>{
             stepObj:stepObj,
         }]))
 
-        axios.post(URL_+'/admin/exercise',formData,{ headers: {'Content-Type': 'multipart/form-data'}}).then((res)=>{
+        const res = await axios.post(URL_+'/admin/exercise',formData,{ headers: {'Content-Type': 'multipart/form-data'}})
+        //.then((res)=>{
             console.log(res)
             if(res.status === 200){
-                setTitle(null)
-                setStepName(null)
-                setStepDescription(null)
-                setStepObj(null)
-                setFile(null)
-                setMessage("Uploaded successfully")
+                const downloadURL = await uploadFile(gif,res.data)
+                if(downloadURL){
+                    const response = axios.post(URL_+'/admin/exercise/update/image',{id:res.data,imageURL:downloadURL})
+                    if(response){
+                        setTitle(null)
+                        setStepName(null)
+                        setStepDescription(null)
+                        setStepObj(null)
+                        setFile(null)
+                        setMessage("Uploaded successfully")
+                    }
+                    }
             }
             if(res.status === 409){
                 console.log("Data uploaded already")
                 setMessage("Title already taken try another one.")
             }
-        }).catch((err)=>{
-            setMessage("Something went wrong, try again.")
-            if(err.response.status === 409){
-                setMessage("Title already taken try another one.")
-            }
+        // }).catch((err)=>{
+        //     setMessage("Something went wrong, try again.")
+        //     if(err.response.status === 409){
+        //         setMessage("Title already taken try another one.")
+        //     }
             
-        })
+        // })
     
     }
 

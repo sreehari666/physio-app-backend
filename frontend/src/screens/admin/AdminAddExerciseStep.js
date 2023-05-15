@@ -7,19 +7,32 @@ import URL_ from "../../URL/url";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import allActions from "../../redux/actions";
-import AWS from "aws-sdk";
+
+import { initializeApp } from "firebase/app";
+import {getStorage,ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
+
 import config from "../../config/config";
 
-AWS.config.update({
-  accessKeyId: config.secrets.ACCESS_KEY,
-  secretAccessKey: config.secrets.SECRET_ACCESS_KEY,
-});
+initializeApp(config.firebaseConfig)
 
-const myBucket = new AWS.S3({
-  params: { Bucket: config.secrets.S3_BUCKET },
-  region: config.secrets.REGION,
-});
+const storage = getStorage();
+
+
+
+
+// import allActions from "../../redux/actions";
+// import AWS from "aws-sdk";
+
+
+// AWS.config.update({
+//   accessKeyId: config.secrets.ACCESS_KEY,
+//   secretAccessKey: config.secrets.SECRET_ACCESS_KEY,
+// });
+
+// const myBucket = new AWS.S3({
+//   params: { Bucket: config.secrets.S3_BUCKET },
+//   region: config.secrets.REGION,
+// });
 
 export const AdminAddExerciseStep = () => {
   const navigate = useNavigate();
@@ -68,35 +81,23 @@ export const AdminAddExerciseStep = () => {
     setGif(e.target.files[0]);
   }
 
-  const uploadFile = (file) => {
-    const params = {
-      ACL: "public-read",
-      Body: file,
-      Bucket: config.secrets.S3_BUCKET,
-      Key: data._id + "#" + stepNum + ".gif",
-    };
+  const uploadFile= async(file)=>{
+    const storageRef = ref(storage, 'files/'+data._id+'#'+stepNum+'.gif')   
+    const snapshot = await uploadBytesResumable(storageRef,file)
+    const downloadURL = await getDownloadURL(snapshot.ref)
+    console.log(downloadURL)
+  }
 
-    myBucket
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(evt);
-        setProgress(Math.round((evt.loaded / evt.total) * 100));
-        console.log(progress);
-      })
-      .send((err) => {
-        if (err) console.log(err);
-      });
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit =async (event) => {
     event.preventDefault();
-
-    uploadFile(gif);
+    const downloadURL = await uploadFile(gif);
+    console.log(downloadURL)
+   
     const formData = new FormData();
     formData.append("id", data._id);
     formData.append("title", title);
     formData.append("exID", myuuid);
-    formData.append("image", gif);
+    // formData.append("imageURL",downloadURL);
     formData.append(
       "steps",
       JSON.stringify([

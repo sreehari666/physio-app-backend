@@ -5,19 +5,27 @@ import axios from "axios";
 import "./styles/Exercise.css";
 import URL_ from "../../URL/url";
 import { useSelector } from "react-redux";
-import AWS from "aws-sdk";
-import config from "../../config/config";
+// import AWS from "aws-sdk";
+
 import { useNavigate } from "react-router-dom";
 
-AWS.config.update({
-  accessKeyId: config.secrets.ACCESS_KEY,
-  secretAccessKey: config.secrets.SECRET_ACCESS_KEY,
-});
+import { initializeApp } from "firebase/app";
+import {getStorage,ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
+import config from "../../config/config";
 
-const myBucket = new AWS.S3({
-  params: { Bucket: config.secrets.S3_BUCKET },
-  region: config.secrets.REGION,
-});
+initializeApp(config.firebaseConfig)
+
+const storage = getStorage();
+
+// AWS.config.update({
+//   accessKeyId: config.secrets.ACCESS_KEY,
+//   secretAccessKey: config.secrets.SECRET_ACCESS_KEY,
+// });
+
+// const myBucket = new AWS.S3({
+//   params: { Bucket: config.secrets.S3_BUCKET },
+//   region: config.secrets.REGION,
+// });
 
 export const AdminEditExercise = (props) => {
   const navigate = useNavigate();
@@ -59,35 +67,44 @@ export const AdminEditExercise = (props) => {
     setGif(e.target.files[0]);
   }
 
-  const uploadFile = (file) => {
-    const params = {
-      ACL: "public-read",
-      Body: file,
-      Bucket: config.secrets.S3_BUCKET,
-      Key: data.id + "#" + stepNum + ".gif",
-    };
+  // const uploadFile = (file) => {
+  //   const params = {
+  //     ACL: "public-read",
+  //     Body: file,
+  //     Bucket: config.secrets.S3_BUCKET,
+  //     Key: data.id + "#" + stepNum + ".gif",
+  //   };
 
-    myBucket
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(evt);
-        setProgress(Math.round((evt.loaded / evt.total) * 100));
-        console.log(progress);
-      })
-      .send((err) => {
-        if (err) console.log(err);
-      });
-  };
+  //   myBucket
+  //     .putObject(params)
+  //     .on("httpUploadProgress", (evt) => {
+  //       console.log(evt);
+  //       setProgress(Math.round((evt.loaded / evt.total) * 100));
+  //       console.log(progress);
+  //     })
+  //     .send((err) => {
+  //       if (err) console.log(err);
+  //     });
+  // };
 
-  const handleSubmit = (event) => {
+  const uploadFile= async(file)=>{
+    const storageRef = ref(storage, 'files/'+data._id+'#'+stepNum+'.gif')   
+    const snapshot = await uploadBytesResumable(storageRef,file)
+    const downloadURL = await getDownloadURL(snapshot.ref)
+    console.log(downloadURL)
+    return downloadURL
+  }
+
+  const handleSubmit =async (event) => {
     event.preventDefault();
-    uploadFile(gif);
+    const downloadURL = await uploadFile(gif);
+    console.log(downloadURL)
     const formData = new FormData();
     formData.append("id", data.id);
     formData.append("title", title);
     formData.append("description",description)
     formData.append("exID", myuuid);
-    formData.append("image", gif);
+    //formData.append("imageURL", downloadURL);
     formData.append(
       "steps",
       JSON.stringify([

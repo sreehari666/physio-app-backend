@@ -1,8 +1,10 @@
 export default {
-    secrets: {
-        S3_BUCKET :'physioapp2023',
-        REGION :'eu-north-1',
-        ACCESS_KEY :'AKIA3BZ37ZTVTRPGVDEX',
-        SECRET_ACCESS_KEY :'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'
+    firebaseConfig:{
+        apiKey: "AIzaSyCiekfaDp8GfI4c5OA2VNcojU-DOjhOwhQ",
+        authDomain: "physio-469aa.firebaseapp.com",
+        projectId: "physio-469aa",
+        storageBucket: "physio-469aa.appspot.com",
+        messagingSenderId: "955393997886",
+        appId: "1:955393997886:web:91eb8da984bdbd284de56f"
     }
 };
