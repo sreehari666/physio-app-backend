@@ -90,9 +90,9 @@ router.post('/save/progress',(req,res)=>{
  
 })
 
-router.get('/report/get/:id',(req,res)=>{
+router.get('/report/get/:id',async (req,res)=>{
   console.log(req.params.id)
-  CommonFunc.getDataByUserID('progress',req.params.id).then((response)=>{
+  const response = await CommonFunc.getDataByUserID('progress',req.params.id)
     if(response){
       console.log(response)
       const data = Array.from(response.data)
@@ -102,12 +102,12 @@ router.get('/report/get/:id',(req,res)=>{
       const groupedData = _.groupBy(data,'exerciseID')
       const keys = Object.keys(groupedData)
       const responseData =[]
-      keys.forEach((key,index)=>{
+      for (var i = 0; i < keys.length; i++) {
         //call function that fetch exercise details by exercise id
-        CommonFunc.getDataById('exercise',key).then((response_)=>{
+      const response_ = await CommonFunc.getDataById('exercise',keys[i])
           if(response_){
             console.log(response_)
-            const progressData = groupedData[key]
+            const progressData = groupedData[keys[i]]
             const title = response_.title
             const stepSize = response_.steps.length
             const maxObj = progressData.reduce((accumulator, current) => {
@@ -121,28 +121,26 @@ router.get('/report/get/:id',(req,res)=>{
             console.log(maxObj)
             const completionPercentage = maxObj.stepNum / stepSize * 100
             const obj ={
-              key:key,
+              keys:keys[i],
               title:title,
               completionPercentage:completionPercentage,
               progressData:progressData
             }
             responseData.push(obj)
-  
-            if(responseData.length === keys.length){
-              res.send(responseData)
-            }
+            // if(responseData.length === keys[i].length){
+            //   res.send(responseData)
+            // }
           }
-          
-          
-        })
-        
-    })
-
+       
+      }
+      console.log("exited from loop")
+      res.send(responseData)
+      
     }else{
       //no data found for the user
       res.status(404)
     }
-  })
+
 })
 
 
