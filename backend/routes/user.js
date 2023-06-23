@@ -18,13 +18,13 @@ router.post('/google/login',(req,res)=>{
       //user not exist so create an account
       CommonFunc.insertData('user',req.body).then((data)=>{
         console.log(data)
-        const accessToken = jwt.sign({userid:data.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
-        const refreshToken = jwt.sign({userid:data.insertedId},process.env.PRIVATE_KEY,{ expiresIn:'1h'})
+        const accessToken = jwt.sign({userid:data.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
+        const refreshToken = jwt.sign({userid:data.insertedId},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
         res.send({accessToken:accessToken,refreshToken:refreshToken,userid:data.insertedId})
       })
     }else{
-      const accessToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
-      const refreshToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn:'1h'})
+      const accessToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
+      const refreshToken = jwt.sign({userid:response._id},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
       res.send({accessToken:accessToken,refreshToken:refreshToken,userid:response._id})
     }
   })
@@ -43,7 +43,7 @@ router.post('/login/verify',(req,res)=>{
       // invalid access token need to verify if request have a valid refresh token
       jwt.verify(req.body.refreshToken,process.env.PRIVATE_KEY, (err, decoded) => {
         if(decoded){
-          const accessToken = jwt.sign({userid:decoded.userid},process.env.PRIVATE_KEY,{ expiresIn: '1m'})
+          const accessToken = jwt.sign({userid:decoded.userid},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
           res.send({accessToken:accessToken,refreshToken:req.body.refreshToken})
         }else{
           //invalid refresh token
