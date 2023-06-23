@@ -39,19 +39,22 @@ router.post('/login/verify',(req,res)=>{
   console.log(req.body)
   jwt.verify(req.body.accessToken,process.env.PRIVATE_KEY, (err, decoded) => {
     console.log(decoded)
-    if(!decoded || decoded === undefined ){
+    if(!decoded || decoded === undefined){
       // invalid access token need to verify if request have a valid refresh token
       jwt.verify(req.body.refreshToken,process.env.PRIVATE_KEY, (err, decoded) => {
         if(decoded){
           const accessToken = jwt.sign({userid:decoded.userid},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
+          console.log("valid accesstoken created from refresh token")
           res.send({accessToken:accessToken,refreshToken:req.body.refreshToken})
         }else{
           //invalid refresh token
+          console.log("invalid refresh token")
           res.status(401)
         }
       })
     }else{
       // valid accesstoken
+      console.log("valid accesstoken")
       res.send({accessToken:req.body.accessToken,refreshToken:req.body.refreshToken})
     }
   })
