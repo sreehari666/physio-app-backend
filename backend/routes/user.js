@@ -49,7 +49,7 @@ router.post('/login/verify',(req,res)=>{
         }else{
           //invalid refresh token
           console.log("invalid refresh token")
-          res.send(401)
+          res.sendStatus(401)
         }
       })
     }else{
