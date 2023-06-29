@@ -37,7 +37,7 @@ router.post('/signup',(req,res)=>{
     if(user){
       if(user.password === null || user.provider === "google"){
         // updating password
-        CommonFunc.updateUserPassword('user',user).then((_)=>{
+        CommonFunc.updateUserPassword('user',req.body).then((_)=>{
           res.send({status:"user-exist"})
         })
       }else{
