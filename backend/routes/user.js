@@ -33,11 +33,11 @@ router.post('/google/login',(req,res)=>{
 
 router.post('/signup',(req,res)=>{
   console.log(req.body)
-  CommonFunc.GetUserDataByEmail(req.body.email).then((user)=>{
+  CommonFunc.GetUserDataByEmail('user',req.body.email).then((user)=>{
     if(user){
       if(user.password === null || user.provider === "google"){
         // updating password
-        CommonFunc.updateUserPassword(user).then((_)=>{
+        CommonFunc.updateUserPassword('user',user).then((_)=>{
           res.send({status:"user-exist"})
         })
       }else{
@@ -48,7 +48,7 @@ router.post('/signup',(req,res)=>{
       req.body.provider = "user"
       req.body.photoURL = "https://firebasestorage.googleapis.com/v0/b/physio-469aa.appspot.com/o/images%2Fperson.jpg?alt=media&token=52b67bc1-c9f1-4dc7-9992-88ba99379ca2"
       req.body.currentCourse = null
-      CommonFunc.Signup(req.body).then((response)=>{
+      CommonFunc.Signup('user',req.body).then((response)=>{
         console.log(response)
         const accessToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
         const refreshToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
@@ -61,7 +61,7 @@ router.post('/signup',(req,res)=>{
 
 router.post('/login',(req,res)=>{
   console.log(req.body)
-  CommonFunc.GetUserDataByEmail(req.body.email).then((response)=>{
+  CommonFunc.GetUserDataByEmail('user',req.body.email).then((response)=>{
     if(response){
       CommonFunc.Login('user',req.body).then((loginRes)=>{
         if(loginRes.status){
