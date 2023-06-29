@@ -36,11 +36,12 @@ router.post('/signup',(req,res)=>{
   CommonFunc.GetUserDataByEmail(req.body.email).then((user)=>{
     if(user){
       if(user.password === null || user.provider === "google"){
-        const accessToken = jwt.sign({userid:user._id},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
-        const refreshToken = jwt.sign({userid:user._id},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
-        res.send({status:"create-password",user:{accessToken:accessToken,refreshToken:refreshToken}})
+        // updating password
+        CommonFunc.updateUserPassword(user).then((_)=>{
+          res.send({status:"user-exist"})
+        })
       }else{
-        res.send({status:"user-exist",user:{accessToken:accessToken,refreshToken:refreshToken}})
+        res.send({status:"user-exist"})
       }
 
     }else{

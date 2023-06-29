@@ -2,6 +2,7 @@ const db = require('../config/connection');
 const bcrypt = require('bcrypt');
 const { ObjectID, ObjectId } = require('bson');
 const { reject } = require('underscore');
+const { resource } = require('../app');
 
 
 
@@ -188,6 +189,18 @@ module.exports={
             db.get().collection(collec).updateOne({_id:ObjectId(data.id)},{
                 $set:{
                     "imageURL":data.imageURL
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    },
+    updateUserPassword:(collec,user)=>{
+        return new Promise(async(resolve,reject)=>{
+            user.password = await bcrypt.hash(user.password,10);
+            db.get().collection(collec).updateOne({_id:ObjectId(user._id)},{
+                $set:{
+                    password:user.password
                 }
             }).then((res)=>{
                 resolve(res)
