@@ -35,10 +35,10 @@ router.post('/signup',(req,res)=>{
   console.log(req.body)
   CommonFunc.GetUserDataByEmail('user',req.body.email).then((user)=>{
     if(user){
-      if(user.password === null || user.provider === "google"){
+      if(user.password === null){
         // updating password
         CommonFunc.updateUserPassword('user',req.body).then((_)=>{
-          res.send({status:"user-exist"})
+          res.send({status:"user-exist-update-password"})
         })
       }else{
         res.send({status:"user-exist"})
@@ -52,7 +52,8 @@ router.post('/signup',(req,res)=>{
         console.log(response)
         const accessToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
         const refreshToken = jwt.sign({userid:response.insertedId},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
-        res.send({status:"success",user:{accessToken:accessToken,refreshToken:refreshToken}})
+        res.send({status:"success",user:{accessToken:accessToken,refreshToken:refreshToken,photoURL:"https://firebasestorage.googleapis.com/v0/b/physio-469aa.appspot.com/o/images%2Fperson.jpg?alt=media&token=52b67bc1-c9f1-4dc7-9992-88ba99379ca2",
+        userid:response.insertedId}})
       })
     }
   })
