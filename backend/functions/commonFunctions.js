@@ -199,11 +199,12 @@ module.exports={
         console.log(user)
         return new Promise(async(resolve,reject)=>{
             user.password = await bcrypt.hash(user.password,10);
-            db.get().collection(collec).updateOne({_id:ObjectId(user._id)},{
+            db.get().collection(collec).updateOne({email:user.email},{
                 $set:{
                     password:user.password
                 }
             }).then((res)=>{
+                console.log("password update")
                 resolve(res)
             })
         })
