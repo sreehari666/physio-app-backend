@@ -66,14 +66,17 @@ router.post('/login',(req,res)=>{
     if(response){
       CommonFunc.Login('user',req.body).then((loginRes)=>{
         if(loginRes.status){
+          console.log("login successful")
           const accessToken = jwt.sign({userid:loginRes._id},process.env.PRIVATE_KEY,{ expiresIn: '1h'})
           const refreshToken = jwt.sign({userid:loginRes._id},process.env.PRIVATE_KEY,{ expiresIn:'24h'})
-          res.send({accessToken:accessToken,refreshToken:refreshToken})
+          res.send({accessToken:accessToken,refreshToken:refreshToken,user:loginRes.data})
         }else{
+          console.log("login unsuccessful")
           res.sendStatus(404)
         }
       })
     }else{
+      console.log("login unsuccessful")
       res.sendStatus(404)
     }
   })
@@ -140,6 +143,7 @@ router.post('/save/progress',(req,res)=>{
 router.get('/report/get/:id',async (req,res)=>{
   console.log(req.params.id)
   const response = await CommonFunc.getDataByUserID('progress',req.params.id)
+  console.log(response)
     if(response){
       console.log(response)
       const data = Array.from(response.data)
@@ -185,7 +189,8 @@ router.get('/report/get/:id',async (req,res)=>{
       
     }else{
       //no data found for the user
-      res.status(404)
+      console.log("no report data found for the user")
+      res.sendStatus(404)
     }
 
 })
